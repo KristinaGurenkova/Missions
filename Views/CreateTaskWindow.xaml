@@ -1,0 +1,46 @@
+﻿<Window x:Class="Missions.Views.CreateTaskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Missions.Views"
+        mc:Ignorable="d"
+        Title="Создание задачи" Height="486" Width="400" ResizeMode="NoResize" Background="#FF8CD2CD">
+    <Grid>
+        <StackPanel>
+            <TextBlock FontFamily="../Fonts/#Montserrat Black" TextAlignment="Center" FontSize="22" Margin="0,20,0,0">Создание задачи</TextBlock>
+
+            <TextBlock FontFamily="../Fonts/#Montserrat" FontSize="16" TextAlignment="Center" Margin="0,15,0,0">Имя задачи:</TextBlock>
+            <TextBox FontFamily="../Fonts/#Montserrat" x:Name="TaskNameBox" Height="30" Width="300" FontSize="20" Margin="0,5,0,0" HorizontalAlignment="Center">
+                <TextBox.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="9"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+
+            <TextBlock FontFamily="../Fonts/#Montserrat" FontSize="16" TextAlignment="Center" Margin="0,15,0,0">Описание задачи:</TextBlock>
+            <TextBox FontFamily="../Fonts/#Montserrat" x:Name="TaskDescriptionBox" Height="80" Width="300" FontSize="20" Margin="0,5,0,0" TextWrapping="Wrap" HorizontalAlignment="Center" AcceptsReturn="True">
+                <TextBox.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="9"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+
+            <TextBlock FontFamily="../Fonts/#Montserrat" FontSize="16" TextAlignment="Center" Margin="0,15,0,0">Дедлайн:</TextBlock>
+            <DatePicker FontFamily="../Fonts/#Montserrat" x:Name="TaskDeadlinePicker" Height="30" Width="300" FontSize="20" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+
+            <TextBlock FontFamily="../Fonts/#Montserrat" FontSize="16" TextAlignment="Center" Margin="0,15,0,0">Исполнитель:</TextBlock>
+            <ComboBox FontFamily="../Fonts/#Montserrat" x:Name="AssigneeComboBox" Height="30" Width="300" FontSize="20" Margin="0,5,0,0" HorizontalAlignment="Center">
+                <ComboBox.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="9"/>
+                    </Style>
+                </ComboBox.Resources>
+            </ComboBox>
+
+            <Button Background="#FFFFBE49" FontFamily="../Fonts/#Montserrat SemiBold" x:Name="CreateTaskButton" Height="30" Width="300" Margin="0 10 0 0" FontSize="18" HorizontalAlignment="Center" Click="CreateTaskButton_Click">Создать задачу</Button>
+        </StackPanel>
+    </Grid>
+</Window>
