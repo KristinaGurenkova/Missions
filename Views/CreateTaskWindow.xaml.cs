@@ -56,7 +56,7 @@ namespace Missions.Views
                 }
             }
 
-            AssigneeComboBox.DisplayMemberPath = "Login"; // Устанавливаем отображение логинов пользователей
+            //AssigneeComboBox.DisplayMemberPath = "Surname"; // Устанавливаем отображение логинов пользователей
         }
 
         private void CreateTaskButton_Click(object sender, RoutedEventArgs e)

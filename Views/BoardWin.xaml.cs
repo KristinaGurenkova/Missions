@@ -36,7 +36,6 @@ namespace Missions.Views
 
                 int projectId = (int)SaveProjectToDatabase(projectName, projectDescription, projectDeadline, selectedUsers);
 
-                // Перезагружаем все проекты с новой сортировкой
                 ReloadUserProjects();
             }
         }
@@ -99,7 +98,7 @@ namespace Missions.Views
             LoadProjectTasks(projectPanel, projectId);
         }
 
-        private StackPanel CreateTaskPanel(string taskName, string taskDescription, DateTime taskDeadline, string taskAssigneeLogin, bool isChecked, int taskId, int projectId)
+        private StackPanel CreateTaskPanel(string taskName, string taskDescription, DateTime taskDeadline, string taskAssigneeLogin, bool isChecked, int taskId, int projectId, string fullName)
         {
             StackPanel taskPanel = new StackPanel { Orientation = Orientation.Horizontal };
 
@@ -113,12 +112,12 @@ namespace Missions.Views
             TextBlock descriptionTask = new TextBlock()
             {
                 Text = taskDescription + " ",
-                FontSize = 20,
+                FontSize = 20, 
             };
 
             TextBlock assignee = new TextBlock()
             {
-                Text = $"Исполнитель: {taskAssigneeLogin} ",
+                Text = $"Исполнитель: {fullName} ",
                 FontSize = 20,
             };
 
@@ -136,11 +135,10 @@ namespace Missions.Views
             taskStatus.Margin = new Thickness(0, 6, 6, 0);
             taskStatus.HorizontalContentAlignment = HorizontalAlignment.Left;
 
-            task.MouseLeftButtonDown += (s, e) => OpenEditTaskWindow(taskId, task, descriptionTask, dateTask, assignee, taskStatus, projectId);
+            task.MouseLeftButtonDown += (s, e) => OpenEditTaskWindow(taskId, task, descriptionTask, dateTask, assignee, taskStatus, projectId, fullName);
 
             taskPanel.Children.Add(taskStatus);
             taskPanel.Children.Add(task);
-            //taskPanel.Children.Add(descriptionTask);
             taskPanel.Children.Add(assignee);
             taskPanel.Children.Add(dateTask);
             taskPanel.Margin = new Thickness(0, 10, 0, 0);
@@ -155,7 +153,7 @@ namespace Missions.Views
             {
                 connection.Open();
                 string query = @"
-                SELECT Tasks.*, Users.login 
+                SELECT Tasks.*, Users.login, Users.surname, Users.name, Users.middlename 
                 FROM Tasks 
                 INNER JOIN User_Task ON Tasks.idTask = User_Task.idTask 
                 INNER JOIN Users ON User_Task.idUser = Users.idUser 
@@ -174,8 +172,12 @@ namespace Missions.Views
                             DateTime taskDeadline = DateTime.FromOADate(Convert.ToDouble(reader["deadline"]));
                             string taskAssigneeLogin = reader["login"].ToString();
                             bool isChecked = Convert.ToBoolean(reader["status"]);
+                            string surname = reader["surname"].ToString();
+                            string name = reader["name"].ToString();
+							string middlename = reader["middlename"].ToString();
+                            string fullName = $"{surname} {name} {middlename}";
 
-                            StackPanel taskPanel = CreateTaskPanel(taskName, taskDescription, taskDeadline, taskAssigneeLogin, isChecked, taskId, projectId);
+                            StackPanel taskPanel = CreateTaskPanel(taskName, taskDescription, taskDeadline, taskAssigneeLogin, isChecked, taskId, projectId, fullName);
                             projectPanel.Children.Add(taskPanel);
                         }
                     }
@@ -214,8 +216,8 @@ namespace Missions.Views
                 SaveTaskToDatabase(taskName, taskDescription, taskDeadline, projectId, taskAssigneeId, isChecked);
 
                 string taskAssigneeLogin = GetUserLogin(taskAssigneeId);
-                int taskId = GetLastInsertedTaskId(); // Метод, который получает ID последней добавленной задачи
-                StackPanel taskPanel = CreateTaskPanel(taskName, taskDescription, taskDeadline, taskAssigneeLogin, isChecked, taskId, projectId);
+                int taskId = GetLastInsertedTaskId(); 
+                StackPanel taskPanel = CreateTaskPanel(taskName, taskDescription, taskDeadline, taskAssigneeLogin, isChecked, taskId, projectId, "");
                 projectPanel.Children.Add(taskPanel);
             }
         }
@@ -302,8 +304,6 @@ namespace Missions.Views
             }
         }
 
-
-
         private string GetUserLogin(int userId)
         {
             string connectionString = "Data Source=Missions.db;Version=3;";
@@ -389,11 +389,11 @@ namespace Missions.Views
                 {
                     // Обновляем проект
                     string updateProjectQuery = @"
-                UPDATE Projects
-                SET nameProject = @nameProject,
-                    discription = @discription,
-                    deadline = @deadline
-                WHERE idProject = @idProject";
+                    UPDATE Projects
+                    SET nameProject = @nameProject,
+                        discription = @discription,
+                        deadline = @deadline
+                    WHERE idProject = @idProject";
                     using (SQLiteCommand command = new SQLiteCommand(updateProjectQuery, connection))
                     {
                         command.Parameters.AddWithValue("@nameProject", name);
@@ -428,23 +428,28 @@ namespace Missions.Views
             }
         }
 
-
-        private void OpenEditTaskWindow(int taskId, TextBlock task, TextBlock descriptionTask, TextBlock dateTask, TextBlock assignee, CheckBox taskStatus, int projectId)
+        private void OpenEditTaskWindow(int taskId, TextBlock task, TextBlock descriptionTask, TextBlock dateTask, TextBlock assignee, CheckBox taskStatus, int projectId, string fullName)
         {
-            EditTaskWin editTaskWin = new EditTaskWin(projectId, taskId);
+            EditTaskWin editTaskWin = new EditTaskWin(projectId, taskId, fullName);
             editTaskWin.Owner = this;
+
+            // Устанавливаем текстовые значения полей
             editTaskWin.TaskNameBox.Text = task.Text.Trim();
             editTaskWin.TaskDescriptionBox.Text = descriptionTask.Text.Trim();
             editTaskWin.TaskDeadlinePicker.SelectedDate = DateTime.Parse(dateTask.Text);
 
-            // Устанавливаем выбранного исполнителя задачи
-            foreach (User user in editTaskWin.AssigneeComboBox.Items)
+            // Загружаем исполнителей проекта и устанавливаем выбранного исполнителя
+            editTaskWin.LoadAssignees(projectId);
+
+            // Устанавливаем текущего исполнителя задачи
+            string currentAssignee = assignee.Text.Split(':')[1].Trim();
+            User selectedUser = editTaskWin.AssigneeComboBox.Items
+                .OfType<User>()
+                .FirstOrDefault(user => $"{user.Surname} {user.Name} {user.Middlename}" == currentAssignee);
+
+            if (selectedUser != null)
             {
-                if (user.Login == assignee.Text.Split(':')[1].Trim())
-                {
-                    editTaskWin.AssigneeComboBox.SelectedItem = user;
-                    break;
-                }
+                editTaskWin.AssigneeComboBox.SelectedItem = selectedUser;
             }
 
             if (editTaskWin.ShowDialog() == true)
@@ -456,20 +461,20 @@ namespace Missions.Views
 
                 UpdateTaskInDatabase(taskId, updatedTaskName, updatedTaskDescription, updatedTaskDeadline, updatedAssigneeId);
 
-                //Обновление отображения задачи на доске
+                // Обновление отображения задачи на доске
                 task.Text = updatedTaskName + " ";
                 descriptionTask.Text = updatedTaskDescription + " ";
                 dateTask.Text = updatedTaskDeadline.ToString();
-                assignee.Text = $"Исполнитель: {editTaskWin.AssigneeComboBox.Text} ";
-                //taskStatus.IsChecked = (editTaskWin.AssigneeComboBox.SelectedItem as User).Login == CurrentUserLogin; // Применение обновленного состояния
+                assignee.Text = $"Исполнитель: {editTaskWin.AssigneeComboBox.SelectedItem}";
             }
             ReloadUserProjects();
         }
 
+
         public void ReloadUserProjects()
         {
             ProjectsPanel.Children.Clear(); // Удаляем все проекты из панели
-            LoadUserProjects(); // Заново загружаем проекты с новой сортировкой
+            LoadUserProjects(); 
         }
 
         public void LoadUserProjects()
@@ -484,7 +489,7 @@ namespace Missions.Views
                 INNER JOIN User_Project ON Projects.idProject = User_Project.idProject 
                 INNER JOIN Users ON User_Project.idUser = Users.idUser 
                 WHERE Users.login = @login
-                ORDER BY Projects.deadline ASC"; // Сортируем проекты по дедлайну
+                ORDER BY Projects.deadline ASC";
                 using (SQLiteCommand command = new SQLiteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@login", CurrentUserLogin);
@@ -503,9 +508,6 @@ namespace Missions.Views
                 }
             }
         }
-
-
-
 
         private void UpdateTaskInDatabase(int taskId, string taskName, string taskDescription, DateTime taskDeadline, int assigneeId)
         {
@@ -530,7 +532,6 @@ namespace Missions.Views
                         command.Parameters.AddWithValue("@idTask", taskId);
                         command.ExecuteNonQuery();
                     }
-
                     // Обновляем исполнителя задачи в таблице User_Task
                     string updateUserTaskQuery = @"
                     UPDATE User_Task
@@ -542,7 +543,6 @@ namespace Missions.Views
                         command.Parameters.AddWithValue("@idTask", taskId);
                         command.ExecuteNonQuery();
                     }
-
                     transaction.Commit();
                 }
             }

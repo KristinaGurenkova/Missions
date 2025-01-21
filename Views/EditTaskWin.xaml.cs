@@ -11,26 +11,27 @@ namespace Missions.Views
         private int ProjectId { get; set; }
         private int TaskId { get; set; }
 
-        public EditTaskWin(int projectId, int taskId)
+        public EditTaskWin(int projectId, int taskId, string fullName)
         {
             InitializeComponent();
             ProjectId = projectId;
             TaskId = taskId;
-            LoadAssignees();
+            AssigneeComboBox.Text = fullName;
+            LoadAssignees(projectId);
         }
-
-        public void LoadAssignees()
+        public void LoadAssignees(int projectId)
         {
+            AssigneeComboBox.Items.Clear();
             string connectionString = "Data Source=Missions.db;Version=3;";
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
                 string query = @"SELECT Users.* FROM Users 
-                                 INNER JOIN User_Project ON Users.idUser = User_Project.idUser 
-                                 WHERE User_Project.idProject = @projectId";
+                         INNER JOIN User_Project ON Users.idUser = User_Project.idUser 
+                         WHERE User_Project.idProject = @projectId";
                 using (SQLiteCommand command = new SQLiteCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@projectId", ProjectId);
+                    command.Parameters.AddWithValue("@projectId", projectId);
                     using (SQLiteDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -51,8 +52,6 @@ namespace Missions.Views
                     }
                 }
             }
-
-            AssigneeComboBox.DisplayMemberPath = "Login"; // Устанавливаем отображение логинов пользователей
         }
 
         private void EditTaskButton_Click(object sender, RoutedEventArgs e)

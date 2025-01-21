@@ -32,7 +32,7 @@ namespace Missions.Views
 
         private void LoadProjectTasks()
         {
-            string query = "";
+            string query;
             BoardWin boardWin = new BoardWin(CurrentUserLogin);
             string connectionString = "Data Source=Missions.db;Version=3;";
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -184,9 +184,7 @@ namespace Missions.Views
             taskPanel.Children.Add(statusPanel);
             taskPanel.Children.Add(taskNamePanel);
             taskPanel.Children.Add(descriptionTaskPanel);
-            //taskPanel.Children.Add(assigneePanel);
             taskPanel.Children.Add(dateTaskPanel);
-            //taskPanel.Margin = new Thickness(0, 10, 0, 0);
 
             TasksPanel.Children.Add(projectBorder);
 

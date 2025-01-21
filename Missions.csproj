@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>check-mark-_1_.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +28,10 @@
     <None Remove="Fonts\Montserrat-SemiBoldItalic.ttf" />
     <None Remove="Fonts\Montserrat-Thin.ttf" />
     <None Remove="Fonts\Montserrat-ThinItalic.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="check-mark-_1_.ico" />
   </ItemGroup>
 
   <ItemGroup>

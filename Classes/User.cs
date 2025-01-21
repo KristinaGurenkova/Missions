@@ -17,8 +17,7 @@ namespace Missions.Classes
         public string Email { get; set; }
         public int IdRole { get; set; }
 
-        public override string ToString() => Login; // Отображение логина в ComboBox
+        public override string ToString() => $"{Surname} {Name} {Middlename}"; // Отображение в ComboBox
     }
-
 
 }
