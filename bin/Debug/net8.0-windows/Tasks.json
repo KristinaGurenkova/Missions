@@ -1,0 +1,23 @@
+﻿[
+  {
+    "IdTasks": 102,
+    "NameTasks": "Исполнить указание менеджера",
+    "DiscTasks": "Выполняем задачу менеджера",
+    "DeadlineTasks": "2024-12-07T00:00:00",
+    "StatusTasks": true
+  },
+  {
+    "IdTasks": 94,
+    "NameTasks": "Написать новый контент",
+    "DiscTasks": "Создать новый текст для обновленных разделов сайта.",
+    "DeadlineTasks": "2025-01-15T00:00:00",
+    "StatusTasks": true
+  },
+  {
+    "IdTasks": 98,
+    "NameTasks": "Подготовить концепцию дизайна",
+    "DiscTasks": "Создать концепт для нового дизайна брошур",
+    "DeadlineTasks": "2025-02-10T00:00:00",
+    "StatusTasks": false
+  }
+]

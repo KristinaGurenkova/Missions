@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\ytty\2Missions-main\obj\Debug\net8.0-windows\
+D:\ytty\Missions-main\obj\Debug\net8.0-windows\
 Missions
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-D:\ytty\2Missions-main\App.xaml
-101671416590
+D:\ytty\Missions-main\App.xaml
+11-1700446242
 11135259754
-221032438027
-203-1067850738
-MainWindow.xaml;Views\BoardWin.xaml;Views\CreateProjectWindow.xaml;Views\CreateTaskWindow.xaml;Views\EditProjectWin.xaml;Views\EditTaskWin.xaml;Views\ManagerWin.xaml;Views\PersonalWin.xaml;Views\RegistrationWin.xaml;Views\RestoreWin.xaml;
+23-1277077409
+204-1225905270
+MainWindow.xaml;Views\BoardWin.xaml;Views\ConverterWin.xaml;Views\CreateProjectWindow.xaml;Views\CreateTaskWindow.xaml;Views\EditProjectWin.xaml;Views\EditTaskWin.xaml;Views\ManagerWin.xaml;Views\PersonalWin.xaml;Views\RegistrationWin.xaml;Views\RestoreWin.xaml;
 
 True
 

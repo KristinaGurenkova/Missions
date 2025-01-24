@@ -198,5 +198,11 @@ namespace Missions.Views
             this.Close();
             boardWin.Show();
         }
+
+        private void convertButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConverterWin converterWin = new ConverterWin(CurrentUserLogin);
+            converterWin.ShowDialog();
+        }
     }
 }

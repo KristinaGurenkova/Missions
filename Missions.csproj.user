@@ -10,6 +10,9 @@
     <Compile Update="Views\BoardWin.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\ConverterWin.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\CreateProjectWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -40,6 +43,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\BoardWin.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ConverterWin.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\CreateProjectWindow.xaml">

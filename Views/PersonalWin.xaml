@@ -13,10 +13,11 @@
     </Window.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button Background="#FF8CD2CD" FontFamily="../Fonts/#Montserrat SemiBold" x:Name="exitButton" Height="30" Width="103" FontSize="16" Margin="10 0 200 0" Click="exitButton_Click">Выйти</Button>
+            <Button Background="#FF8CD2CD" FontFamily="../Fonts/#Montserrat SemiBold" x:Name="exitButton" Height="30" Width="103" FontSize="16" Margin="10 0 0 0" Click="exitButton_Click">Выйти</Button>
+            <Button Background="#FF8CD2CD" FontFamily="../Fonts/#Montserrat SemiBold" x:Name="convertButton" Height="30" Width="163" FontSize="16" Margin="10 0 36 0" Click="convertButton_Click">Выгрузить задачи</Button>
             <TextBlock Foreground="Black" Text="MISSIONS" FontFamily="../Fonts/#Montserrat SemiBold" FontSize="55" Margin="6 7 0 0"/>
             <TextBlock Foreground="#FFFFBE49" Text="MISSIONS" FontFamily="../Fonts/#Montserrat SemiBold" FontSize="55" Margin="-285,5,0,0"/>
-            <StackPanel Width="325" Margin="0 10 0 0">
+            <StackPanel Width="325" Margin="-6 10 0 0">
                 <TextBlock HorizontalAlignment="Right" FontFamily="../Fonts/#Montserrat SemiBold" Text="Логин"  FontSize="16" x:Name ="logBox"/>
                 <TextBlock HorizontalAlignment="Right" FontFamily="../Fonts/#Montserrat SemiBold" Text="Почта"  FontSize="16" x:Name="emailBox"/>
             </StackPanel>
@@ -24,5 +25,6 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto" DockPanel.Dock="Bottom">
             <WrapPanel x:Name="TasksPanel" Style="{DynamicResource MyCustomFont}" Orientation="Vertical" HorizontalAlignment="Center" Margin="10"/>
         </ScrollViewer>
+        <Border/>
     </DockPanel>
 </Window>

@@ -11,8 +11,8 @@ namespace Missions.Classes
         public int IdTask { get; set; }
         public string NameTask { get; set; }
         public string Description { get; set; }
-        public double Deadline { get; set; }
-        public int Status { get; set; }
+        public DateTime Deadline { get; set; }
+        public bool Status { get; set; }
         public int IdProject { get; set; }
     }
 
