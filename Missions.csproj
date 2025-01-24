@@ -47,6 +47,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="ConverterTasks">
+      <HintPath>..\ConverterTasks\bin\Debug\net8.0\ConverterTasks.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Fonts\Montserrat-Black.ttf" />
     <Resource Include="Fonts\Montserrat-BlackItalic.ttf" />
     <Resource Include="Fonts\Montserrat-Bold.ttf" />

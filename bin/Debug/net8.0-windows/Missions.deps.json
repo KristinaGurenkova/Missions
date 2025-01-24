@@ -9,7 +9,8 @@
       "Missions/1.0.0": {
         "dependencies": {
           "ConverterTasks": "1.0.0",
-          "System.Data.SQLite": "1.0.119"
+          "System.Data.SQLite": "1.0.119",
+          "ConverterTasks.Reference": "1.0.0.0"
         },
         "runtime": {
           "Missions.dll": {}
@@ -193,10 +194,10 @@
           "System.Drawing.Common": "4.7.0"
         }
       },
-      "ConverterTasks/1.0.0": {
+      "ConverterTasks.Reference/1.0.0.0": {
         "runtime": {
           "ConverterTasks.dll": {
-            "assemblyVersion": "1.0.0",
+            "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -370,8 +371,8 @@
       "path": "system.windows.extensions/4.7.0",
       "hashPath": "system.windows.extensions.4.7.0.nupkg.sha512"
     },
-    "ConverterTasks/1.0.0": {
-      "type": "project",
+    "ConverterTasks.Reference/1.0.0.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }

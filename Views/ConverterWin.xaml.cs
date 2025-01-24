@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ConverterTasks;
+using Microsoft.Win32;
 using Missions.Classes;
 using static System.Net.Mime.MediaTypeNames;
 using Task = Missions.Classes.Task;
@@ -30,8 +31,8 @@ namespace Missions.Views
         List<Tasks> TasksList= new List<Tasks>();
         public ConverterWin(string login)
         {
-            InitializeComponent();
-            CurrentUserLogin = login;
+			InitializeComponent();
+			CurrentUserLogin = login;
             LoadProjectTasks();
         }
 
@@ -74,13 +75,31 @@ namespace Missions.Views
         }
         private void txtButton_Click(object sender, RoutedEventArgs e)
         {
+            string path = "";
+			SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-           converter.txtConvert(TasksList);
+			// Настройка диалогового окна
+			saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+
+			if (saveFileDialog.ShowDialog() == true)
+			{
+				path = saveFileDialog.FileName;
+			}
+			converter.txtConvert(TasksList, path);
             
         }
         private void jsonButton_Click(object sender, RoutedEventArgs e)
         {
-			converter.jsonConvert(TasksList);
+			string path = "";
+			SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+			// Настройка диалогового окна
+			saveFileDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"; 
+			if (saveFileDialog.ShowDialog() == true)
+			{
+				path = saveFileDialog.FileName;
+			}
+			converter.jsonConvert(TasksList, path);
 		}
     }
 }
